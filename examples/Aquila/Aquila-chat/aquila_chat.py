@@ -62,7 +62,9 @@ if not env_args.not_call_launch:
     sys.exit(0)
 
 print(f"Trainer effective env_args={env_args} local_rank={trainer.local_rank}", flush=True)
-
+cur_dir = env_args.enable_sft_dataset_dir
+jsonl_data = os.path.join(cur_dir, env_args.enable_sft_dataset_file)
+print(jsonl_data,123123123123)
 checkpoints = env_args.pre_load_dir
 
 model_name = env_args.model_name
@@ -114,8 +116,9 @@ max_seq_len = 2048
 def read_file(jsonl_file):
     conversations = []
     with jsonlines.open(jsonl_file) as reader:
-        for line in reader:
-            conversations.append(line)
+        for i in range(500):
+            for line in reader:
+                conversations.append(line)
     return conversations
 
 
@@ -234,6 +237,7 @@ class ConversationDatasetV2(Dataset):
             "labels": labels
         }
         return data
+
 
 conversations = read_file(jsonl_data)
 data_len = len(conversations)

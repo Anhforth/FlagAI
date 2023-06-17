@@ -26,6 +26,7 @@ set +u
 export HOSTFILE=$hostfile
 export CONFIGFILE=$configfile
 export NODE_ADDR=$(ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v inet6|awk '{print $2;}'|tr -d "addr:")
+# export NODE_ADDR='172.31.125.165'
 export GPU_NUM_PER_NODE=$(awk -F" |=" '{ranks[$1]=$NF;}END{print ranks["'$NODE_ADDR'"];}' $HOSTFILE)
 export NODES_NUM=$(cat $HOSTFILE | wc -l)
 export MASTER_ADDR=$(head -n1 $HOSTFILE | awk '{print $1;}')
