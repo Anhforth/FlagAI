@@ -3,7 +3,7 @@
 
 
 
-# 悟道·天鹰（Aquila）        <font size=4>*Read this in [English](./README_en.md).*</font>
+# 悟道·天鹰（Aquila）        <h4> *Read this in [English](./README_en.md).*</h6>
 
 悟道·天鹰（Aquila） 语言大模型是首个具备中英双语知识、支持商用许可协议、国内数据合规需求的开源语言大模型。
 - 🌟 **支持开源商用许可**。Aquila系列模型的源代码基于 [Apache 2.0 协议](https://www.apache.org/licenses/LICENSE-2.0)，模型权重基于[《智源Aquila系列模型许可协议》](../../BAAI_Aquila_Model_License.pdf)，使用者在满足许可限制的情况下，可用于商业目的。
