@@ -12,7 +12,7 @@ if [ ! -d "$directory" ]; then
 else
     echo "目录已存在：$directory"
 fi
-cp checkpoints_store/model_files/* checkpoints_store/flash_attn_checkpoints/${MODEL_NAME}
+cp model_files/* checkpoints_store/flash_attn_checkpoints/${MODEL_NAME}
 
 
 
@@ -21,5 +21,5 @@ cp checkpoints_store/model_files/* checkpoints_store/flash_attn_checkpoints/${MO
 cp $LOC checkpoints_store/flash_attn_checkpoints/${MODEL_NAME}
 
 python convert.py ${MODEL_NAME} 
-cp checkpoints_store/model_files/* checkpoints_store/converted_models/${MODEL_NAME}
+cp model_files/* checkpoints_store/converted_models/${MODEL_NAME}
 cp -r checkpoints_store/converted_models/${MODEL_NAME} ../checkpoints_in/
