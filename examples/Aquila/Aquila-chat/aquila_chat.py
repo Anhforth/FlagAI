@@ -65,7 +65,6 @@ if not env_args.not_call_launch:
 print(f"Trainer effective env_args={env_args} local_rank={os.environ['LOCAL_RANK']}", flush=True)
 
 checkpoints = env_args.pre_load_dir
-
 model_name = env_args.model_name
 
 print('*'*20, "model_name", model_name, flush=True)

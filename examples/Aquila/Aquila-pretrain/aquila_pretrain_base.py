@@ -11,17 +11,16 @@ from flagai.auto_model.auto_loader import AutoLoader
 from flagai.data.tokenizer import Tokenizer
 from flagai.env_args import EnvArgs
 from flagai.env_trainer_v1 import EnvTrainer
-import jsonlines
-import numpy as np
-from flagai.model.tools.peft.prepare_lora import lora_transfer
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+from flagai.model.aquila_model import AQUILAModel
 from flagai.data.dataset.indexed_dataset.build_index_mappings import _build_train_valid_test_datasets, _build_train_valid_test_weighted_datasets
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # You can input all parameters by the command line.
 # For example: python train_env_trainer.py --epochs=300 --batch_size=4 --env_type=pytorch
 env_args = EnvArgs(
     env_type="bmtrain",
+    experiment_name="aquila",
     batch_size=1,
     gradient_accumulation_steps=1,
     lr=2e-4,
@@ -39,7 +38,6 @@ env_args = EnvArgs(
     training_script=__file__,
 )
 env_args = env_args.parse_args()
-
 #env_args.wandb = False
 
 # overwrite
@@ -63,34 +61,25 @@ if not env_args.not_call_launch:
     import sys
     sys.exit(0)
 
-print(f"Trainer effective env_args={env_args} local_rank={os.environ['LOCAL_RANK']}", flush=True)
-
+print(f"Trainer effective env_args={env_args} local_rank={os.environ['LOCAL_RANK']}",
+      flush=True)
 checkpoints = env_args.pre_load_dir
 model_name = env_args.model_name
 
-print('*'*20, "model_name", model_name, flush=True)
-
+print('*' * 20, "model_name", model_name, flush=True)
 
 cache_dir = os.path.join(checkpoints, model_name)
-print('*'*20, "cache_dir", cache_dir)
+print('*' * 20, "cache_dir", cache_dir)
 tokenizer = Tokenizer.from_pretrained(model_name, cache_dir=cache_dir)
-print('*'*20, "tokenizer", tokenizer)
+print('*' * 20, "tokenizer", tokenizer)
 
 # avoid sync loading models in case of Mem OOM
 if env_args.bmt_async_load:
     import time
-    time.sleep(10*60*(os.environ['LOCAL_RANK']%4))
-
+    time.sleep(10 * 60 * (os.environ['LOCAL_RANK'] % 4))
 
 config_file = os.path.join(cache_dir, 'config.json')
-from flagai.model.aquila_model import AQUILAModel
-model = AQUILAModel.init_from_json(config_file=config_file, device=device, fp16=True) 
-# print('*'*20, "model", model)
-
-#lora
-if env_args.lora:
-    model = lora_transfer(model,env_args)
-    model.print_trainable_parameters()
+model = AQUILAModel.init_from_json(config_file=config_file)
 
 ## bmt_pre_load
 checkpoint_path = os.path.join(cache_dir, "pytorch_model.bin")
@@ -99,10 +88,10 @@ if env_args.bmt_pre_load:
 
 trainer.pre_train(model)
 
-print('*'*20, "model", model, flush=True)
+print('*' * 20, "model", model, flush=True)
 
 ## Use Prebuilt DataSets
-data_prefix = '../../indexed_dataset/data/zhihu_text_document'
+data_prefix = '../../indexed_dataset/data/demo_text_document'
 data_impl = 'mmap'
 splits_string = '90,10'
 train_valid_test_num_samples = [90, 10]
@@ -116,7 +105,9 @@ train_dataset, valid_dataset, _ = _build_train_valid_test_datasets(
 print("Total train_dataset: ", len(train_dataset), flush=True)
 print("Total valid_dataset: ", len(valid_dataset), flush=True)
 
+
 def collate_fn(batch):
+
     def padding(indice, max_length, pad_idx=tokenizer.token_end_id):
         pad_indice = [
             item.tolist() + [pad_idx] * max(0, max_length - len(item.tolist()))

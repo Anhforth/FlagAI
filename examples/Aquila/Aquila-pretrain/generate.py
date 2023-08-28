@@ -3,7 +3,6 @@ import torch
 from flagai.auto_model.auto_loader import AutoLoader
 from flagai.data.tokenizer import Tokenizer
 from flagai.model.predictor.predictor import Predictor
-import bminf
 
 state_dict = "./checkpoints_in/"
 model_name = 'aquila-7b'
@@ -22,6 +21,8 @@ model.cuda()
 
 texts = [
     "汽车EDR是什么",
+    "北京在哪里",
+    "为什么1+1=2"
 ]
 
 predictor = Predictor(model, tokenizer)
