@@ -1,8 +1,8 @@
 export PYTHONPATH=/data2/yzd/FlagAI
 
 PREPROCESS_DATA_TOOL=$PYTHONPATH/flagai/data/dataset/indexed_dataset/preprocess_data_args.py
-TOKENIZER_DIR=/data2/yzd/FlagAI/examples/indexed_dataset/
-TOKENIZER_NAME=gpt2-base-en
+TOKENIZER_DIR=/data2/yzd/FlagAI/examples/Aquila/Aquila-chat/checkpoints_in/
+TOKENIZER_NAME=aquila-7b
 
 INPUT_FILE=/data2/yzd/FlagAI/examples/indexed_dataset/data/zhihu.jsonl
 FULL_OUTPUT_PREFIX=./data/zhihu

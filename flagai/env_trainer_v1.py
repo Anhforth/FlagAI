@@ -613,6 +613,8 @@ class EnvTrainer():
                         optimizer_manager=optim_manager if self.env_type == 'bmtrain' else None,
                         grad_norm=avg_grad_norm)
 
+                    print("memory: ", torch.cuda.max_memory_allocated()//1024//1024, torch.cuda.memory_allocated()//1024//1024)
+
                     if self.tb_writer:
                         self.tb_writer.add_scalar('train/loss', avg_lm_loss,
                                                   self.iteration + 1)

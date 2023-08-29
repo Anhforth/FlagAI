@@ -45,7 +45,7 @@ export SAVE_DIR=$PROJ_HOME/checkpoints_out/${EXP_NAME}/$exp_version
 mkdir -p $SAVE_DIR
 mkdir -p $WANDB_DIR
 ## Backup ckpts & scripts into exp versions
-cp -r $PRE_LOAD_DIR/$MODEL_NAME $SAVE_DIR
+# cp -r $PRE_LOAD_DIR/$MODEL_NAME $SAVE_DIR
 cp -r $PROJ_HOME/$TRIGGER_FILE $SAVE_DIR
 cp -r $hostfile $SAVE_DIR
 cp -r $configfile $SAVE_DIR

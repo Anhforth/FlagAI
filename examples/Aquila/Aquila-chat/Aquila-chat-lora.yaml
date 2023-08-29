@@ -1,10 +1,10 @@
-batch_size: 4
+batch_size: 1
 epochs: 10
 gradient_accumulation_steps: 1
 lr: 4.0e-5
 warm_up: 0.01
 warm_up_iters: 200
-lora_r: 16
+lora_r: 8
 lora_alpha: 32
 save_interval: 500
 log_interval: 10
@@ -17,5 +17,5 @@ enable_flash_attn_models: False
 eps: 1.0e-8
 lora: True
 
-enable_sft_dataset_dir: './data/'
-enable_sft_dataset_file: 'convo_samples.jsonl'
+enable_sft_dataset_dir: '/data2/yzd/data/'
+enable_sft_dataset_file: 'sft_v0.9.10_train.jsonl'

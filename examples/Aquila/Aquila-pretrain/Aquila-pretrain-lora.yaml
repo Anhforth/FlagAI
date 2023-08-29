@@ -1,5 +1,5 @@
 batch_size: 1
-epochs: 10
+epochs: 3
 gradient_accumulation_steps: 1
 lr: 4.0e-5
 warm_up: 0.01
